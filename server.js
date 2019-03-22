@@ -12,9 +12,9 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(express.static(path.join(__dirname, '/build')));
 if(process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '/build')));
+    server.use(express.static(path.join(__dirname, '/build')));
     //
-    app.get('*', (req, res) => {
+    server.get('*', (req, res) => {
       res.sendfile(path.join(__dirname = '/build/index.html'));
     })
   }
