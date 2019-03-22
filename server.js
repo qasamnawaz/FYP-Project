@@ -10,12 +10,12 @@ var server = express();
 var path = require('path'); 
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
-server.use(express.static(path.join(__dirname, './build')));
+server.use(express.static(path.join(__dirname, '/build')));
 
 // server.use('/', express.static(__dirname + './build'));
 // server.use(express.static('./build'))
 // server.get('/',function(req,res){
-//     res.sendFile(__dirname+'./build/index.html');
+//     res.sendFile(__dirname+'/build/index.html');
 //   });
 
 // server.get('/newproduct',(req,res)=>{
