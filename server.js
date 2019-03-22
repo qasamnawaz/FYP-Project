@@ -38,6 +38,7 @@ server.post('/addInCart', (req, res) => {
                 storage:req.body.storage,
                 src:req.body.src,
                 battery:req.body.battery,
+                quan:req.body.quan,
             })
             cartItem.save(function(error){
                 () => {console.log("item successfully saved into database.") }
@@ -49,7 +50,19 @@ server.post('/addInCart', (req, res) => {
         }
     });
 })
-server.post('/payment', (req, res) => {
+server.post('/updatequan', (req, res) => {
+
+    Cartitems.findByIdAndUpdate({_id:req.body.id},{quan:req.body.value}).
+    exec(function (err, item) {
+        if (err) console.log(err);
+        Cartitems.find({}, function(err, items) { 
+            res.send(items);  
+          });    
+    })
+
+})
+
+    server.post('/payment', (req, res) => {
     const user = new Users({
         address:req.body.address,
         city:req.body.city,
@@ -69,7 +82,7 @@ server.post('/payment', (req, res) => {
     }) 
     res.send(user);      
 })
-server.get('/cart', function(req, res) {
+server.get('/carts', function(req, res) {
     Cartitems.find({}, function(err, items) { 
       res.send(items);  
     });
@@ -94,9 +107,7 @@ server.post('/delItem', function(req, res) {
             res.sendFile(path.join(__dirname+'/build/index.html'));
           })
   
-// server.get('*', (req,res) =>{
-//     res.sendFile((__dirname+'/build/index.html'));
-// });
+
 server.use((err, req, res, next) => {
     console.warn(err)
     res.status(500).send("Error Catched by error handler.")
