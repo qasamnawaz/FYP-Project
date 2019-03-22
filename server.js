@@ -11,12 +11,21 @@ var path = require('path');
 server.use(bodyParser.urlencoded({ extended: true }));
 server.use(bodyParser.json());
 server.use(express.static(path.join(__dirname, '/build')));
-
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '/build')));
+    //
+    app.get('*', (req, res) => {
+      res.sendfile(path.join(__dirname = '/build/index.html'));
+    })
+  }
+server.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname+'/build/index.html'));
+  })
 // server.use('/', express.static(__dirname + './build'));
 // server.use(express.static('./build'))
-// server.get('/',function(req,res){
-//     res.sendFile(__dirname+'/build/index.html');
-//   });
+server.get('/',function(req,res){
+    res.sendFile(__dirname+'/build/index.html');
+  });
 
 // server.get('/newproduct',(req,res)=>{
 //     res.render('./build/index.html')
@@ -103,16 +112,7 @@ server.post('/delItem', function(req, res) {
     })
         });
 
-        if(process.env.NODE_ENV === 'production') {
-            app.use(express.static(path.join(__dirname, '/build')));
-            //
-            app.get('*', (req, res) => {
-              res.sendfile(path.join(__dirname = '/build/index.html'));
-            })
-          }
-        server.get('*', (req, res) => {
-            res.sendFile(path.join(__dirname+'/build/index.html'));
-          })
+
   
 
 server.use((err, req, res, next) => {
